@@ -9,11 +9,6 @@ CREATE TABLE roles (
     name VARCHAR(50) NOT NULL UNIQUE
 );
 
-/* L'insertion de les roles */
-CREATE TABLE roles (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL UNIQUE
-);
 
 /* La creation de users */ 
 CREATE TABLE users (
@@ -176,11 +171,6 @@ CREATE TABLE comments (
         ON DELETE CASCADE
         ON UPDATE CASCADE,
 
-    CONSTRAINT fk_comments_request
-        FOREIGN KEY (bank_request_id)
-        REFERENCES bank_requests(id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
 
     CONSTRAINT fk_comments_complaint
         FOREIGN KEY (complaint_id)
