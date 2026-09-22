@@ -12,9 +12,9 @@ async function findUserByEmail(email){
 async function createUser(firstName, lastName, email, password){
     const [result] = await pool.execute(
         `INSERT INTO users
-        (first_name, last_name, email,paasword)
-        VALUES(?,?,?,?)`,
-        [firstName, lastName, email, password]
+        (first_name, last_name, email,password, role_id)
+        VALUES(?,?,?,?,?)`,
+        [firstName, lastName, email, password, 1]
     );
 
     return result.insertId;
