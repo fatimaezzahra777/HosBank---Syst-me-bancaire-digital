@@ -14,6 +14,18 @@ const getClients = (req, res) => {
   res.json({ success: true, data: clients });
 };
 
+const getRequests = (req, res) => {
+  res.json({ success: true, data: requests });
+};
+
+const getComplaints = (req, res) => {
+  res.json({ success: true, data: complaints });
+};
+
+const getInteractions = (req, res) => {
+  res.json({ success: true, data: interactions });
+};
+
 const getClientById = (req, res) => {
   const client = clients.find((item) => item.id === Number(req.params.id));
 
@@ -138,6 +150,38 @@ const getUsers = (req, res) => {
   res.json({ success: true, data: users });
 };
 
+const getRoles = (req, res) => {
+  const { roles } = require('../models/bankModel');
+  res.json({ success: true, data: roles });
+};
+
+const assignClientToAdvisor = (req, res) => {
+  const { clientId, advisorId } = req.body;
+
+  if (!clientId || !advisorId) {
+    return res.status(400).json({ success: false, message: 'clientId et advisorId sont requis' });
+  }
+
+  const client = clients.find((item) => item.id === Number(clientId));
+  const advisor = users.find((item) => item.id === Number(advisorId));
+
+  if (!client) {
+    return res.status(404).json({ success: false, message: 'Client introuvable' });
+  }
+
+  if (!advisor) {
+    return res.status(404).json({ success: false, message: 'Chargé client introuvable' });
+  }
+
+  if (advisor.role !== 'Chargé Client') {
+    return res.status(400).json({ success: false, message: 'L’utilisateur sélectionné n’est pas un chargé client' });
+  }
+
+  client.assignedAdvisorId = Number(advisorId);
+
+  return res.json({ success: true, message: 'Client affecté au chargé client', data: client });
+};
+
 const createUser = (req, res) => {
   const { firstName, lastName, email, role, status } = req.body;
 
@@ -253,6 +297,9 @@ const getActivities = (req, res) => {
 
 module.exports = {
   getClients,
+  getRequests,
+  getComplaints,
+  getInteractions,
   getClientById,
   getClientAccounts,
   getClientCards,
@@ -263,6 +310,8 @@ module.exports = {
   updateComplaintStatus,
   createComment,
   getUsers,
+  getRoles,
+  assignClientToAdvisor,
   createUser,
   updateUser,
   updateUserStatus,

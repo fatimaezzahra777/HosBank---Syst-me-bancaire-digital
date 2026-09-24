@@ -2,6 +2,9 @@ const express = require('express');
 const { login } = require('../controllers/auth');
 const {
   getClients,
+  getRequests,
+  getComplaints,
+  getInteractions,
   getClientById,
   getClientAccounts,
   getClientCards,
@@ -12,6 +15,8 @@ const {
   updateComplaintStatus,
   createComment,
   getUsers,
+  getRoles,
+  assignClientToAdvisor,
   createUser,
   updateUser,
   updateUserStatus,
@@ -31,6 +36,9 @@ router.post('/login', login);
 router.use(authMiddleware);
 
 router.get('/clients', getClients);
+router.get('/requests', getRequests);
+router.get('/complaints', getComplaints);
+router.get('/interactions', getInteractions);
 router.get('/clients/:id', getClientById);
 router.get('/clients/:id/accounts', getClientAccounts);
 router.get('/clients/:id/cards', getClientCards);
@@ -42,6 +50,8 @@ router.patch('/complaints/:id/status', updateComplaintStatus);
 router.post('/comments', createComment);
 
 router.get('/admin/users', getUsers);
+router.get('/admin/roles', getRoles);
+router.patch('/admin/clients/assign', assignClientToAdvisor);
 router.post('/admin/users', createUser);
 router.patch('/admin/users/:id', updateUser);
 router.patch('/admin/users/:id/status', updateUserStatus);
