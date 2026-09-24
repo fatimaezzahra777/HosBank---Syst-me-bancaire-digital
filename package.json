@@ -1,16 +1,23 @@
 {
-  "name": "hosbank-",
+  "name": "hosbank",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Projet bancaire simple pour le binôme B",
+  "main": "src/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/app.js",
+    "dev": "node src/app.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "banking",
+    "express",
+    "backend"
+  ],
+  "author": "Ilyas",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "ejs": "^6.0.1",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mysql2": "^3.5.1"
   }
 }
