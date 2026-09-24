@@ -12,11 +12,11 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-  res.json({
-    message: "HosBank - Binôme B",
-    status: "ok",
-    description: "Espace chargé client et administration simple"
-  });
+  res.render("login");
+});
+
+app.get("/login", (req, res) => {
+  res.render("login");
 });
 
 app.use("/api", routes);
