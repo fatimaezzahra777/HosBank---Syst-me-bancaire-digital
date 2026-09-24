@@ -1,4 +1,5 @@
 const express = require('express');
+const { login } = require('../controllers/auth');
 const {
   getClients,
   getClientById,
@@ -26,6 +27,7 @@ const authMiddleware = require('../midllewars/auth');
 
 const router = express.Router();
 
+router.post('/login', login);
 router.use(authMiddleware);
 
 router.get('/clients', getClients);
