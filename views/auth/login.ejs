@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>HosBank - Connexion</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="auth-page">
+
+    <div class="auth-container">
+
+
+        <!-- =========================
+             LEFT
+        ========================== -->
+
+        <div class="auth-side">
+
+            <div class="logo">
+
+                <div class="logo-icon">
+                    H
+                </div>
+
+                HosBank
+
+            </div>
+
+
+            <div class="auth-side-content">
+
+                <h1>
+                    Votre sécurité,
+                    notre priorité.
+                </h1>
+
+                <p>
+                    Accédez à votre espace bancaire
+                    en toute sécurité et gérez
+                    facilement vos finances.
+                </p>
+
+            </div>
+
+
+            <div class="security-text">
+
+                Connexion sécurisée
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             FORM
+        ========================== -->
+
+        <div class="auth-form-container">
+
+            <form
+                class="auth-form"
+                action="/login"
+                method="POST"
+            >
+
+                <h2>
+                    Ravi de vous revoir
+                </h2>
+
+                <p class="auth-description">
+                    Connectez-vous pour accéder
+                    à votre espace sécurisé.
+                </p>
+
+
+                <% if (typeof error !== "undefined" && error) { %>
+
+                    <div class="alert alert-error">
+                        <%= error %>
+                    </div>
+
+                <% } %>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Adresse e-mail
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="nom@example.com"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Mot de passe
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="••••••••"
+                        required
+                    >
+
+                </div>
+
+
+                <div
+                    style="
+                        text-align:right;
+                        margin-top:-8px;
+                        margin-bottom:20px;
+                    "
+                >
+
+                    <a
+                        href="#"
+                        class="auth-link"
+                    >
+                        Mot de passe oublié ?
+                    </a>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                >
+                    Se connecter
+                </button>
+
+
+                <div class="auth-link">
+
+                    Nouveau sur HosBank ?
+
+                    <a href="/register">
+                        Créer un compte
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

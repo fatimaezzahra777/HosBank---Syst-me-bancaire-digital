@@ -1,42 +1,84 @@
-const  express = require("express");
+const express = require("express");
 const path = require("path");
+const session = require("express-session");
 const pool = require("./config/database");
-const { log } = require("console");
 
 require("dotenv").config();
 
 const app = express();
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
 
-app.use(express.urlencoded({extended: true}));
+app.set("view engine", "ejs");
+
+app.set(
+    "views",
+    path.join(__dirname, "../views")
+);
+
+
+
+app.use(express.urlencoded({
+    extended: true
+}));
+
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(
+    express.static(
+        path.join(__dirname, "../public")
+    )
+);
 
-app.get("/", (req, res) =>{
+
+
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || "hosbank_secret",
+        resave: false,
+        saveUninitialized: false
+    })
+);
+
+
+const authRoutes = require("./routes/route");
+
+app.use("/", authRoutes);
+
+
+app.get("/", (req, res) => {
     res.send("Banking app fonctionne");
 });
 
-async function testDatabase(){
-    try{
+
+async function testDatabase() {
+
+    try {
+
         const connection = await pool.getConnection();
 
-        console.log("mysql fonnctionne ");
+        console.log("mysql fonctionne");
 
         connection.release();
+
     } catch (error) {
-        console.error("error mysql", error.message);
-        
+
+        console.error(
+            "error mysql",
+            error.message
+        );
+
     }
 }
 
 testDatabase();
 
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log(` serveur sur http://localhost:${PORT}`);
-    
+
+    console.log(
+        `Server running on http://localhost:${PORT}`
+    );
+
 });

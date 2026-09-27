@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>HosBank - Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+
+<body class="dashboard-page">
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                H
+            </div>
+
+            HosBank
+
+        </div>
+
+
+        <div class="navbar-links">
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+            <a href="/beneficiaries">
+                Bénéficiaires
+            </a>
+
+            <a href="/transfers">
+                Virements
+            </a>
+
+            <a href="/historique">
+                Historique
+            </a>
+
+            <a
+                href="/logout"
+                class="logout"
+            >
+                Déconnexion
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- CONTENT -->
+
+    <main class="dashboard-container">
+
+
+        <div class="dashboard-header">
+
+            <h1>
+                Bonjour
+                <%= user.first_name %> 👋
+            </h1>
+
+            <p>
+                Bienvenue dans votre espace HosBank.
+            </p>
+
+        </div>
+
+
+
+        <!-- CARDS -->
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    DH
+                </div>
+
+                <div class="card-title">
+                    Solde total
+                </div>
+
+                <div class="card-value">
+                    0,00 DH
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    $
+                </div>
+
+                <div class="card-title">
+                    Mes comptes
+                </div>
+
+                <div class="card-value">
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    →
+                </div>
+
+                <div class="card-title">
+                    Demandes en cours
+                </div>
+
+                <div class="card-value">
+                    0
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- INFORMATIONS -->
+
+        <div class="table-card">
+
+            <h2>
+                Informations personnelles
+            </h2>
+
+            <table>
+
+                <tr>
+
+                    <th>
+                        Nom
+                    </th>
+
+                    <td>
+                        <%= user.last_name %>
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Prénom
+                    </th>
+
+                    <td>
+                        <%= user.first_name %>
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Email
+                    </th>
+
+                    <td>
+                        <%= user.email %>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
+
+        <!-- OPERATIONS -->
+
+        <div class="table-card">
+
+            <h2>
+                Dernières opérations
+            </h2>
+
+            <p>
+                Aucune opération pour le moment.
+            </p>
+
+        </div>
+
+
+    </main>
+
+</body>
+
+</html>

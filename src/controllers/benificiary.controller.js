@@ -2,9 +2,9 @@ const service = require("../services/service");
 
 async function showBeneficiaries(req, res) {
     try{
-        const clientId = req.session.user.id;
+        const userId = req.session.user.id;
 
-        const beneficiaries = await service.getClientBeneficier(clientId);
+        const beneficiaries = await service.getClientBeneficier(userId);
 
         res.render("client/beneficiaries",{
             beneficiaries,
@@ -25,19 +25,23 @@ async function showBeneficiaries(req, res) {
 
 async function addBeneficier(req, res) {
     try{
-        const clientId = req.session.user.id;
+        const userId = req.session.user.id;
 
         const {
-            name, rib, bank_name
+            name, rib
         } = req.body;
 
-        await service.addBeneficier(clientId, name, rib, bank_name);
+        console.log("USER ID :", userId);
+        console.log("NAME :", name);
+        console.log("RIB :", rib);
+
+        await service.addBeneficier(userId, name, rib);
 
         res.redirect("/beneficiaries");
     } catch (error){
         console.error(error);
 
-        res.render("/client/beneficiaries",{
+        res.render("client/beneficiaries",{
             beneficiaries: [],
             error: error.message,
             success: null
@@ -47,11 +51,11 @@ async function addBeneficier(req, res) {
 
 async function deleteBeneficiers(req, res) {
     try {
-        const clientId = req.session.user.id;
+        const userId = req.session.user.id;
 
         const beneficiareId = req.params.id; 
 
-        await service.removeBeneficier(beneficiareId, clientId);
+        await service.removeBeneficier(beneficiareId, userId);
 
         res.redirect("/beneficiaries");
     } catch(error){

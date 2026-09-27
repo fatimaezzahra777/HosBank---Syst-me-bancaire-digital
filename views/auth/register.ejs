@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>HosBank - Inscription</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="auth-page">
+
+    <div class="auth-container">
+
+
+        <!-- =========================
+             LEFT
+        ========================== -->
+
+        <div class="auth-side">
+
+            <div class="logo">
+
+                <div class="logo-icon">
+                    H
+                </div>
+
+                HosBank
+
+            </div>
+
+
+            <div class="auth-side-content">
+
+                <h1>
+                    Votre banque,
+                    simplement.
+                </h1>
+
+                <p>
+                    Gérez vos finances avec une
+                    expérience simple, sécurisée
+                    et pensée pour vous.
+                </p>
+
+            </div>
+
+
+            <div class="security-text">
+
+                Membre du réseau de garantie
+                des dépôts
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             FORM
+        ========================== -->
+
+        <div class="auth-form-container">
+
+            <form
+                class="auth-form"
+                action="/register"
+                method="POST"
+            >
+
+                <h2>
+                    Créer votre compte
+                </h2>
+
+                <p class="auth-description">
+                    Rejoignez HosBank aujourd'hui.
+                    L'inscription prend quelques minutes.
+                </p>
+
+
+                <% if (typeof error !== "undefined" && error) { %>
+
+                    <div class="alert alert-error">
+                        <%= error %>
+                    </div>
+
+                <% } %>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label>
+                            Nom
+                        </label>
+
+                        <input
+                            type="text"
+                            name="last_name"
+                            placeholder="Dupont"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Prénom
+                        </label>
+
+                        <input
+                            type="text"
+                            name="first_name"
+                            placeholder="Jean"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Adresse e-mail
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="jean.dupont@example.com"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Téléphone
+                    </label>
+
+                    <input
+                        type="tel"
+                        name="phone"
+                        placeholder="+212 6 12 34 56 78"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Mot de passe
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="••••••••"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Confirmer le mot de passe
+                    </label>
+
+                    <input
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="••••••••"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                >
+                    Créer mon compte
+                </button>
+
+
+                <div class="auth-link">
+
+                    Déjà un compte ?
+
+                    <a href="/login">
+                        Se connecter
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

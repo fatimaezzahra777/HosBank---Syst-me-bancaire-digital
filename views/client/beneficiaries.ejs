@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>HosBank - Bénéficiaires</title>
+
+<link
+    rel="stylesheet"
+    href="/css/style.css"
+>
+
+
+</head>
+
+<body class="dashboard-page">
+
+
+
+
+<header class="navbar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            H
+        </div>
+
+        HosBank
+
+    </div>
+
+
+    <nav class="navbar-links">
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/beneficiaries">
+            Bénéficiaires
+        </a>
+
+         <a href="/transfers">
+            Virements
+        </a>
+
+        <a href="/historique">
+            Historique
+        </a>
+
+        <a href="/logout" class="logout">
+            Déconnexion
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =========================
+     CONTENT
+========================== -->
+
+<main class="dashboard-container">
+
+
+    <!-- HEADER -->
+
+    <div class="dashboard-header">
+
+        <h1>
+            Mes bénéficiaires
+        </h1>
+
+        <p>
+            Gérez les personnes vers lesquelles
+            vous souhaitez effectuer vos virements.
+        </p>
+
+    </div>
+
+
+
+   
+
+    <% if (typeof error !== "undefined" && error) { %>
+
+        <div class="alert alert-error">
+            <%= error %>
+        </div>
+
+    <% } %>
+
+
+    <% if (typeof success !== "undefined" && success) { %>
+
+        <div class="alert alert-success">
+            <%= success %>
+        </div>
+
+    <% } %>
+
+
+
+   
+
+    <section class="beneficiary-layout">
+
+
+        <div class="table-card beneficiary-form-card">
+
+            <h2>
+                Ajouter un bénéficiaire
+            </h2>
+
+            <p class="section-description">
+                Ajoutez un bénéficiaire en renseignant
+                son nom et son RIB.
+            </p>
+
+
+           <form action="/beneficiaries" method="POST">
+
+            <div class="form-group">
+
+                <label for="name">
+                    Nom du bénéficiaire
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="rib">
+                    RIB
+                </label>
+
+                <input
+                    type="text"
+                    id="rib"
+                    name="rib"
+                    required
+                >
+
+            </div>
+
+
+            <button type="submit" class="btn-primary">
+                Ajouter le bénéficiaire
+            </button>
+
+        </form>
+
+        </div>
+
+
+
+        <!-- =========================
+             LISTE
+        ========================== -->
+
+        <div class="table-card beneficiary-list-card">
+
+            <div class="beneficiary-list-header">
+
+                <div>
+
+                    <h2>
+                        Mes bénéficiaires
+                    </h2>
+
+                    <p class="section-description">
+                        <%= beneficiaries.length %>
+                        bénéficiaire(s) enregistré(s)
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <% if (beneficiaries.length === 0) { %>
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        +
+                    </div>
+
+                    <h3>
+                        Aucun bénéficiaire
+                    </h3>
+
+                    <p>
+                        Vous n'avez pas encore ajouté
+                        de bénéficiaire.
+                    </p>
+
+                </div>
+
+            <% } else { %>
+
+
+                <div class="beneficiary-list">
+
+
+                    <% beneficiaries.forEach(function(beneficiary) { %>
+
+
+                        <article class="beneficiary-item">
+
+
+                            <div class="beneficiary-info">
+
+
+                                <div class="beneficiary-avatar">
+
+                                    <%= beneficiary.name
+                                        .charAt(0)
+                                        .toUpperCase() %>
+
+                                </div>
+
+
+                                <div>
+
+                                    <h3>
+                                        <%= beneficiary.name %>
+                                    </h3>
+
+                                    <p>
+                                        RIB :
+                                        <%= beneficiary.rib %>
+                                    </p>
+
+                                    <span class="status-active">
+                                        <%= beneficiary.status %>
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <form
+                                action="/beneficiaries/<%= beneficiary.id %>/delete"
+                                method="POST"
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="btn-delete"
+                                    onclick="return confirm('Voulez-vous vraiment supprimer ce bénéficiaire ?')"
+                                >
+                                    Supprimer
+                                </button>
+
+                            </form>
+
+
+                        </article>
+
+
+                    <% }) %>
+
+
+                </div>
+
+
+            <% } %>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+</body>
+
+</html>
