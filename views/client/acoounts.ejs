@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>HosBank - Mes comptes</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>HosBank</h1>
+
+    <nav>
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/accounts">
+            Mes comptes
+        </a>
+
+        <a href="/beneficiaries">
+            Bénéficiaires
+        </a>
+
+        <a href="/transfers">
+            Virements
+        </a>
+
+        <a href="/logout">
+            Déconnexion
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<main>
+
+    <h2>Mes comptes</h2>
+
+    <p>
+        Consultez vos comptes bancaires et vos soldes.
+    </p>
+
+
+    <% if (error) { %>
+
+        <p style="color: red;">
+            <%= error %>
+        </p>
+
+    <% } %>
+
+
+    <% if (accounts.length === 0) { %>
+
+        <p>
+            Vous n'avez aucun compte bancaire.
+        </p>
+
+    <% } %>
+
+
+    <% accounts.forEach(function(account) { %>
+
+
+        <section>
+
+            <h3>
+                <%= account.type %>
+            </h3>
+
+
+            <p>
+                Numéro de compte :
+                <strong>
+                    <%= account.account_number %>
+                </strong>
+            </p>
+
+
+            <p>
+                RIB :
+                <strong>
+                    <%= account.rib %>
+                </strong>
+            </p>
+
+
+            <p>
+                Solde :
+                <strong>
+                    <%= account.balance %> DH
+                </strong>
+            </p>
+
+
+            <p>
+                Statut :
+                <strong>
+                    <%= account.status %>
+                </strong>
+            </p>
+
+        </section>
+
+
+    <% }) %>
+
+
+</main>
+
+
+</body>
+
+</html>

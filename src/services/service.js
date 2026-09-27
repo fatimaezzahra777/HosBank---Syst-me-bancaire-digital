@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const userModel = require("../models/user.model");
 const beneficiaryModel = require("../models/benificiary.model");
 const transferModel= require("../models/transfer.model");
+const accountModel = require("../models/account.model");
 
 async function registerUser(firstName, lastName, email, password) {
 
@@ -190,6 +191,13 @@ async function makeTransfer(
     return transferId;
 }
 
+async function getClientAccounts(userId) {
+
+    return await accountModel.getAccountsByUserId(userId);
+
+}
+
+
 module.exports = {
     registerUser,
     loginUser,
@@ -197,5 +205,6 @@ module.exports = {
     addBeneficier,
     removeBeneficier,
     getTransferPageData,
-    makeTransfer
+    makeTransfer,
+    getClientAccounts
 };

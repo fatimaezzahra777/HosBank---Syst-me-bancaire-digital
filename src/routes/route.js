@@ -6,6 +6,7 @@ const authController = require("../controllers/auth.controller");
 const dashboardController = require("../controllers/dashboard.controller");
 const beneficiaryController = require("../controllers/benificiary.controller");
 const transferController = require("../controllers/transfer.controller");
+const accountController = require("../controllers/account.controller");
 
 const { isAuthenticated } = require("../midllewars/auth");
 
@@ -23,5 +24,7 @@ router.post("/beneficiaries/:id/delete", isAuthenticated, beneficiaryController.
 
 router.get("/transfers", isAuthenticated,transferController.showTransfers);
 router.post("/transfers", isAuthenticated, transferController.createTransfer);
+
+router.get("/accounts", isAuthenticated, accountController.showAccounts)
 
 module.exports = router;
