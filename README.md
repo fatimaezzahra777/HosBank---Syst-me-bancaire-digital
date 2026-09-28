@@ -1,75 +1,55 @@
-# HosBank - Système bancaire digital
+# HosBank - Binôme B
 
-Ce projet correspond au Binôme B : espace chargé client et espace administrateur.
+Application Express/EJS de démonstration pour l'espace Chargé Client et l'espace Administrateur.
 
-## Objectif
-
-Le but est de fournir une base simple et lisible d'API Express pour gérer :
-
-- les clients et leurs comptes;
-- les demandes (RIB, épargne, carte virtuelle, PIN, opposition);
-- les réclamations et les commentaires;
-- l'affectation des clients aux chargés client;
-- la gestion des utilisateurs et des comptes côté admin;
-- la supervision des opérations et des activités.
-
-## Pourquoi ce code est simple
-
-La logique a été organisée pour rester claire et compréhensible :
-
-- les données sont centralisées dans un fichier de modèle;
-- les contrôleurs gèrent la logique métier de chaque partie;
-- les routes exposent les endpoints API de manière directe;
-- l'application est prête pour une évolution vers une vraie base de données plus tard.
-
-## Structure principale
-
-- src/app.js : point d'entrée de l'application
-- src/routes/route.js : toutes les routes API
-- src/controllers : logique de gestion des clients et de l'admin
-- src/models : données de test du système bancaire
-- src/midllewars : middleware simple de sécurité
-
-## Endpoints principaux
-
-### Chargé client
-
-- GET /api/clients
-- GET /api/clients/:id
-- GET /api/clients/:id/accounts
-- GET /api/clients/:id/cards
-- GET /api/clients/:id/requests
-- GET /api/clients/:id/complaints
-- PATCH /api/requests/:id/status
-- POST /api/complaints
-- PATCH /api/complaints/:id/status
-- POST /api/comments
-
-### Administration
-
-- GET /api/admin/users
-- POST /api/admin/users
-- PATCH /api/admin/users/:id
-- PATCH /api/admin/users/:id/status
-- GET /api/admin/accounts
-- PATCH /api/admin/accounts/:id/status
-- GET /api/admin/cards
-- PATCH /api/admin/cards/:id/status
-- GET /api/admin/operations
-- GET /api/admin/activities
-
-## Exemple d'exécution
+## Démarrer
 
 ```bash
 npm install
 npm start
 ```
 
-Puis ouvrir :
+Ouvrir http://localhost:3000/login. Une fois connecté, le tableau de bord est disponible sur http://localhost:3000/dashboard.
 
-- http://localhost:3000/
-- http://localhost:3000/api/clients
+Comptes de démonstration (mot de passe commun `123456`) :
 
-## Remarque
+- Chargé Client : `ahmed@bank.com`
+- Administrateur : `nadia@bank.com`
 
-Ce projet est volontairement simple et pédagogique. Il ne contient pas de logique avancée, mais il couvre bien la structure fonctionnelle demandée pour le Binôme B.
+## Fonctions
+
+### Chargé Client
+
+- Consulter uniquement les clients qui lui sont affectés, leurs comptes, cartes, demandes et réclamations.
+- Traiter les demandes RIB, compte épargne, carte virtuelle, PIN et opposition selon les transitions prévues.
+- L'acceptation d'une demande épargne ou carte virtuelle crée le produit correspondant; une opposition traitée bloque une carte du client.
+- Ouvrir et suivre des réclamations, ajouter une réponse/commentaire et consulter l'historique des interactions.
+
+### Administrateur
+
+- Consulter, créer, modifier et désactiver des utilisateurs; gérer leurs rôles.
+- Affecter les clients aux chargés client.
+- Créer et modifier les comptes, consulter les soldes et modifier leur statut.
+- Consulter et modifier les statuts des cartes, y compris les oppositions.
+- Superviser les virements, opérations, demandes, réclamations, activités et indicateurs.
+
+## Écrans et code
+
+- `src/views/login.ejs` : connexion de démonstration.
+- `src/views/workspace.ejs` : espace Chargé Client et Admin avec navigation par sections.
+- `src/public/css/workspace.css` : style responsive de l'espace équipe.
+- `src/public/js/workspace.js` : chargement des données et actions de l'interface.
+- `src/routes/route.js` et `src/controllers/bankController.js` : routes API et règles métier.
+- `src/models/bankModel.js` : jeux de données initiaux de démonstration.
+
+## Vérification
+
+```bash
+npm test
+```
+
+Le test d'intégration vérifie le login, les restrictions par rôle, l'affectation des clients, les transitions et effets des demandes, les réclamations/commentaires, les comptes, les cartes et la supervision.
+
+## Limites de démonstration
+
+Les données sont gardées en mémoire et reviennent aux exemples initiaux au redémarrage. Le mot de passe et les jetons sont simplifiés pour le projet scolaire. Cette version n'est pas adaptée à un usage bancaire réel et n'est pas encore reliée aux tables MySQL du fichier `database/db.sql`.
