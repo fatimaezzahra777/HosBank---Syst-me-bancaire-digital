@@ -19,6 +19,20 @@ const login = (req, res) => {
     });
   }
 
+  if (!['Chargé Client', 'Administrateur'].includes(user.role)) {
+    return res.status(403).json({
+      success: false,
+      message: 'Cet espace est réservé aux équipes de la banque'
+    });
+  }
+
+  if (user.status !== 'ACTIVE') {
+    return res.status(403).json({
+      success: false,
+      message: 'Ce compte est désactivé'
+    });
+  }
+
   if (password !== '123456') {
     return res.status(401).json({
       success: false,
@@ -29,7 +43,7 @@ const login = (req, res) => {
   return res.json({
     success: true,
     message: 'Connexion réussie',
-    token: 'demo-token-binome-b',
+    token: `demo-token-${user.id}`,
     user: {
       id: user.id,
       email: user.email,

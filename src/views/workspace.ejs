@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HosBank | Espace équipe</title>
+    <link rel="stylesheet" href="/css/workspace.css" />
+    <script src="/js/workspace.js" defer></script>
+  </head>
+  <body>
+    <div class="workspace">
+      <aside class="sidebar">
+        <a class="brand" href="/dashboard"><span class="brand-mark">H</span><span>HosBank</span></a>
+        <p class="group-label">ESPACE ÉQUIPE</p>
+        <nav class="navigation" aria-label="Navigation principale">
+          <a class="nav-link active" href="#overview" data-section="overview">Vue d'ensemble</a>
+          <a class="nav-link" href="#clients" data-section="clients">Clients</a>
+          <a class="nav-link" href="#requests" data-section="requests">Demandes</a>
+          <a class="nav-link" href="#complaints" data-section="complaints">Réclamations</a>
+          <a class="nav-link" href="#history" data-section="history">Interactions</a>
+          <p class="group-label admin-only">ADMINISTRATION</p>
+          <a class="nav-link admin-only" href="#users" data-section="users">Utilisateurs et rôles</a>
+          <a class="nav-link admin-only" href="#assignments" data-section="assignments">Affectations</a>
+          <a class="nav-link admin-only" href="#accounts" data-section="accounts">Comptes</a>
+          <a class="nav-link admin-only" href="#cards" data-section="cards">Cartes</a>
+          <a class="nav-link admin-only" href="#supervision" data-section="supervision">Supervision</a>
+        </nav>
+      </aside>
+      <main class="main-content">
+        <header class="topbar">
+          <div><p class="eyebrow">HOSBANK / ESPACE ÉQUIPE</p><h1 id="page-title">Vue d'ensemble</h1></div>
+          <div class="identity"><span id="user-name">Chargement...</span><button id="logout" class="outline">Déconnexion</button></div>
+        </header>
+        <p id="message" class="message" role="status" aria-live="polite"></p>
+
+        <section class="page-section visible" id="overview">
+          <div class="section-heading"><div><h2>Vue d'ensemble</h2><p>Suivi des clients et de l'activité.</p></div><button class="outline" data-refresh>Actualiser</button></div>
+          <div class="metrics"><article><span>Clients</span><strong id="metric-clients">—</strong></article><article><span>Demandes en attente</span><strong id="metric-requests">—</strong></article><article><span>Réclamations ouvertes</span><strong id="metric-complaints">—</strong></article><article class="admin-only"><span>Opérations</span><strong id="metric-operations">—</strong></article></div>
+          <div class="panel"><h3>Activité récente</h3><div class="table-wrap"><table><thead><tr><th>Date</th><th>Client</th><th>Type</th><th>Action</th><th>Commentaire</th></tr></thead><tbody id="activity-table"></tbody></table></div></div>
+        </section>
+
+        <section class="page-section" id="clients"><div class="section-heading"><div><h2>Clients</h2><p>Dossiers clients et produits associés.</p></div><button class="outline" data-refresh>Actualiser</button></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Client</th><th>Téléphone</th><th>Chargé</th><th>Comptes</th><th>Cartes</th><th>Détail</th></tr></thead><tbody id="clients-table"></tbody></table></div></div><div class="panel" id="client-details">Sélectionnez un client pour afficher son dossier.</div></section>
+
+        <section class="page-section" id="requests"><div class="section-heading"><div><h2>Demandes</h2><p>RIB, épargne, carte virtuelle, PIN et opposition.</p></div><button class="outline" data-refresh>Actualiser</button></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Client</th><th>Type</th><th>Date</th><th>Statut</th><th>Commentaire</th><th>Traitement</th></tr></thead><tbody id="requests-table"></tbody></table></div></div></section>
+
+        <section class="page-section" id="complaints"><div class="section-heading"><div><h2>Réclamations</h2><p>Ouvrir, suivre et traiter les dossiers clients.</p></div><button class="outline" data-refresh>Actualiser</button></div><div class="panel"><h3>Ouvrir une réclamation</h3><form id="complaint-form" class="form-grid"><label>Client<select name="clientId" id="complaint-client" required></select></label><label>Sujet<input name="subject" required maxlength="150" /></label><label class="wide">Description<textarea name="description" required rows="3"></textarea></label><button class="primary" type="submit">Créer</button></form></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Client</th><th>Sujet</th><th>Description</th><th>Créée le</th><th>Statut</th><th>Action</th></tr></thead><tbody id="complaints-table"></tbody></table></div></div><div class="panel"><h3>Répondre / commenter</h3><form id="comment-form" class="form-grid"><label>Demande ou réclamation<select name="target" id="comment-target" required></select></label><label>Commentaire<input name="content" required maxlength="500" /></label><button class="primary" type="submit">Envoyer</button></form></div></section>
+
+        <section class="page-section" id="history"><div class="section-heading"><div><h2>Historique</h2><p>Interactions, actions et réponses par client.</p></div><label>Client<select id="history-client"></select></label></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Client</th><th>Chargé</th><th>Type</th><th>Action</th><th>Commentaire</th></tr></thead><tbody id="history-table"></tbody></table></div></div></section>
+
+        <section class="page-section admin-only" id="users"><div class="section-heading"><div><h2>Utilisateurs et rôles</h2><p>Créer, modifier et désactiver les utilisateurs.</p></div><button class="outline" data-refresh>Actualiser</button></div><div class="panel"><h3>Créer un utilisateur</h3><form id="user-form" class="form-grid"><label>Prénom<input name="firstName" required /></label><label>Nom<input name="lastName" required /></label><label>E-mail<input name="email" type="email" required /></label><label>Rôle<select name="role" id="role-list" required></select></label><button class="primary" type="submit">Créer</button></form></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Nom</th><th>E-mail</th><th>Rôle</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="users-table"></tbody></table></div></div></section>
+
+        <section class="page-section admin-only" id="assignments"><div class="section-heading"><div><h2>Affectations clients</h2><p>Associer les clients aux chargés client.</p></div></div><div class="panel"><form id="assignment-form" class="form-grid"><label>Client<select name="clientId" id="assignment-client" required></select></label><label>Chargé client<select name="advisorId" id="assignment-advisor" required></select></label><button class="primary" type="submit">Affecter</button></form></div></section>
+
+        <section class="page-section admin-only" id="accounts"><div class="section-heading"><div><h2>Comptes bancaires</h2><p>Création, consultation, solde et statut.</p></div><button class="outline" data-refresh>Actualiser</button></div><div class="panel"><h3>Créer un compte</h3><form id="account-form" class="form-grid"><label>Client<select name="clientId" id="account-client" required></select></label><label>Type<select name="type"><option value="CURRENT">Courant</option><option value="SAVINGS">Épargne</option></select></label><label>Solde initial<input name="balance" type="number" min="0" step="0.01" value="0" required /></label><button class="primary" type="submit">Créer</button></form></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Client</th><th>Numéro</th><th>RIB</th><th>Type</th><th>Solde</th><th>Statut</th><th>Action</th></tr></thead><tbody id="accounts-table"></tbody></table></div></div></section>
+
+        <section class="page-section admin-only" id="cards"><div class="section-heading"><div><h2>Cartes bancaires</h2><p>Activation, désactivation, blocage et oppositions.</p></div><button class="outline" data-refresh>Actualiser</button></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Client</th><th>Carte</th><th>Type</th><th>Statut</th><th>Action</th></tr></thead><tbody id="cards-table"></tbody></table></div></div></section>
+
+        <section class="page-section admin-only" id="supervision"><div class="section-heading"><div><h2>Supervision</h2><p>Opérations et indicateurs de l'activité bancaire.</p></div><button class="outline" data-refresh>Actualiser</button></div><div class="panel"><h3>Toutes les opérations</h3><div class="table-wrap"><table><thead><tr><th>Date</th><th>Type</th><th>Compte</th><th>Montant</th><th>Statut</th></tr></thead><tbody id="operations-table"></tbody></table></div></div><div class="panel"><h3>Statistiques</h3><div class="table-wrap"><table><thead><tr><th>Demandes</th><th>Réclamations</th><th>Interactions</th><th>Opérations</th></tr></thead><tbody id="statistics-table"></tbody></table></div></div></section>
+      </main>
+    </div>
+  </body>
+</html>

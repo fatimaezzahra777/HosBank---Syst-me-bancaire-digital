@@ -19,6 +19,10 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
+app.get("/dashboard", (req, res) => {
+  res.render("workspace");
+});
+
 app.use("/api", routes);
 
 const PORT = process.env.PORT || 3000;
