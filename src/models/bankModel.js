@@ -31,7 +31,9 @@ const requests = [
   { id: 1, clientId: 1, type: 'RIB', status: 'EN_ATTENTE', createdAt: '2026-09-16', comment: 'Demande de relevé RIB' },
   { id: 2, clientId: 1, type: 'COMPTE_EPARGNE', status: 'ACCEPTEE', createdAt: '2026-09-15', comment: 'Compte épargne créé' },
   { id: 3, clientId: 2, type: 'PIN', status: 'TRAITEE', createdAt: '2026-09-10', comment: 'Nouveau code PIN traité' },
-  { id: 4, clientId: 2, type: 'OPPOSITION_CARTE', status: 'DEMANDEE', createdAt: '2026-09-18', comment: 'Opposition demandée' }
+  { id: 4, clientId: 2, type: 'OPPOSITION_CARTE', status: 'DEMANDEE', createdAt: '2026-09-18', comment: 'Opposition demandée' },
+  { id: 5, clientId: 1, type: 'CARTE_VIRTUELLE', status: 'EN_ATTENTE', createdAt: '2026-09-23', comment: 'Demande de carte virtuelle' },
+  { id: 6, clientId: 2, type: 'COMPTE_EPARGNE', status: 'EN_ATTENTE', createdAt: '2026-09-24', comment: 'Demande de compte épargne' }
 ];
 
 const complaints = [
@@ -55,6 +57,11 @@ const operations = [
   { id: 3, type: 'RETRAIT', amount: 120, accountId: 1, status: 'PENDING', date: '2026-09-22' }
 ];
 
+const transfers = [
+  { id: 1, clientId: 1, accountId: 1, beneficiary: 'Youssef Benali', amount: 250, status: 'COMPLETED', date: '2026-09-20' },
+  { id: 2, clientId: 2, accountId: 3, beneficiary: 'Fatima Ali', amount: 125, status: 'PENDING', date: '2026-09-22' }
+];
+
 module.exports = {
   roles,
   users,
@@ -65,5 +72,6 @@ module.exports = {
   complaints,
   interactions,
   comments,
-  operations
+  operations,
+  transfers
 };

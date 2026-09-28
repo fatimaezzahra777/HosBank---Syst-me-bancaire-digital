@@ -29,6 +29,7 @@ const {
   getCards,
   updateCardStatus,
   getOperations,
+  getTransfers,
   getActivities
 } = require('../controllers/bankController');
 
@@ -76,6 +77,7 @@ router.patch('/admin/accounts/:id/status', updateAccountStatus);
 router.get('/admin/cards', getCards);
 router.patch('/admin/cards/:id/status', updateCardStatus);
 router.get('/admin/operations', getOperations);
+router.get('/admin/transfers', getTransfers);
 router.get('/admin/activities', getActivities);
 
 module.exports = router;

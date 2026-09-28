@@ -8,6 +8,7 @@ const {
   comments,
   users,
   operations,
+  transfers,
   roles
 } = require('../models/bankModel');
 
@@ -118,6 +119,36 @@ const updateRequestStatus = (req, res) => {
 
   request.status = status;
   request.comment = comment || request.comment;
+
+  if (request.type === 'COMPTE_EPARGNE' && status === 'ACCEPTEE') {
+    const id = Math.max(0, ...accounts.map((account) => account.id)) + 1;
+    accounts.push({
+      id,
+      clientId: request.clientId,
+      accountNumber: `HB${String(id).padStart(8, '0')}`,
+      rib: `RIB${String(id).padStart(10, '0')}`,
+      type: 'SAVINGS',
+      balance: 0,
+      status: 'ACTIVE'
+    });
+  }
+
+  if (request.type === 'CARTE_VIRTUELLE' && status === 'ACCEPTEE') {
+    const id = Math.max(0, ...cards.map((card) => card.id)) + 1;
+    cards.push({
+      id,
+      clientId: request.clientId,
+      cardNumber: `4920 0000 0000 ${String(id).padStart(4, '0')}`,
+      type: 'VIRTUAL',
+      status: 'ACTIVE'
+    });
+  }
+
+  if (request.type === 'OPPOSITION_CARTE' && status === 'TRAITEE') {
+    const card = cards.find((item) => item.clientId === request.clientId && item.status !== 'EXPIRED');
+    if (card) card.status = 'OPPOSITION';
+  }
+
   interactions.push({
     id: interactions.length + 1,
     clientId: request.clientId,
@@ -216,6 +247,8 @@ const createComment = (req, res) => {
   };
 
   comments.push(comment);
+  if (request) request.comment = content;
+  if (complaint) complaint.response = content;
   if (clientId) {
     interactions.push({
       id: interactions.length + 1,
@@ -430,6 +463,10 @@ const getOperations = (req, res) => {
   res.json({ success: true, data: operations });
 };
 
+const getTransfers = (req, res) => {
+  res.json({ success: true, data: transfers });
+};
+
 const getActivities = (req, res) => {
   res.json({
     success: true,
@@ -472,5 +509,6 @@ module.exports = {
   getCards,
   updateCardStatus,
   getOperations,
+  getTransfers,
   getActivities
 };

@@ -1,7 +1,7 @@
 const token = sessionStorage.getItem('hosbankToken');
 const user = JSON.parse(sessionStorage.getItem('hosbankUser') || 'null');
 const isAdmin = user && user.role === 'Administrateur';
-const cache = { clients: [], requests: [], complaints: [], interactions: [], users: [], roles: [], accounts: [], cards: [], operations: [] };
+const cache = { clients: [], requests: [], complaints: [], interactions: [], users: [], roles: [], accounts: [], cards: [], operations: [], transfers: [] };
 const message = document.querySelector('#message');
 
 if (!token || !user) window.location.replace('/login');
@@ -88,7 +88,10 @@ function fillSelect(selectId, items, labelFor, valueFor = (item) => item.id) {
 }
 
 function clientName(id) {
-  return cache.clients.find((client) => client.id === Number(id))?.fullName || `Client ${id}`;
+  const client = cache.clients.find((item) => item.id === Number(id));
+  if (client) return client.fullName;
+  const userRecord = cache.users.find((item) => item.id === client?.userId) || cache.users.find((item) => item.id === Number(id));
+  return userRecord ? `${userRecord.firstName} ${userRecord.lastName}` : `Client ${id}`;
 }
 
 async function loadClients() {
@@ -181,15 +184,16 @@ function renderHistory() {
 
 async function loadAdmin() {
   if (!isAdmin) return;
-  [cache.users, cache.roles, cache.accounts, cache.cards, cache.operations] = await Promise.all([
-    api('/api/admin/users'), api('/api/admin/roles'), api('/api/admin/accounts'), api('/api/admin/cards'), api('/api/admin/operations')
+  [cache.users, cache.roles, cache.accounts, cache.cards, cache.operations, cache.transfers] = await Promise.all([
+    api('/api/admin/users'), api('/api/admin/roles'), api('/api/admin/accounts'), api('/api/admin/cards'), api('/api/admin/operations'), api('/api/admin/transfers')
   ]);
   fillSelect('role-list', cache.roles, (role) => role.name, (role) => role.name);
-  fillSelect('assignment-advisor', cache.users.filter((item) => item.role === 'Chargé Client'), (item) => `${item.firstName} ${item.lastName}`);
+  fillSelect('assignment-advisor', cache.users.filter((item) => item.role === 'Chargé Client' && item.status === 'ACTIVE'), (item) => `${item.firstName} ${item.lastName}`);
   renderUsers();
   renderAccounts();
   renderCards();
   renderOperations();
+  renderTransfers();
   const stats = await api('/api/admin/activities');
   document.querySelector('#metric-operations').textContent = stats.totalOperations;
   resetTable('statistics-table');
@@ -204,7 +208,9 @@ function renderUsers() {
       if (firstName === null) return;
       const lastName = window.prompt('Nom', item.lastName);
       if (lastName === null) return;
-      try { await api(`/api/admin/users/${item.id}`, { method: 'PATCH', body: JSON.stringify({ firstName, lastName }) }); await loadWorkspace(); showMessage('Utilisateur modifié.'); } catch (error) { showMessage(error.message, true); }
+      const email = window.prompt('Adresse e-mail', item.email);
+      if (email === null) return;
+      try { await api(`/api/admin/users/${item.id}`, { method: 'PATCH', body: JSON.stringify({ firstName, lastName, email }) }); await loadWorkspace(); showMessage('Utilisateur modifié.'); } catch (error) { showMessage(error.message, true); }
     });
     const toggle = button(item.status === 'ACTIVE' ? 'Désactiver' : 'Activer', async () => {
       try { await api(`/api/admin/users/${item.id}/status`, { method: 'PATCH', body: JSON.stringify({ status: item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE' }) }); await loadWorkspace(); } catch (error) { showMessage(error.message, true); }
@@ -248,6 +254,11 @@ function renderCards() {
 function renderOperations() {
   resetTable('operations-table');
   cache.operations.forEach((item) => row('operations-table', [item.date, item.type, item.accountId, `${item.amount} €`, item.status]));
+}
+
+function renderTransfers() {
+  resetTable('transfers-table');
+  cache.transfers.forEach((item) => row('transfers-table', [item.date, clientName(item.clientId), item.accountId, item.beneficiary, `${item.amount} €`, item.status]));
 }
 
 async function loadWorkspace() {
