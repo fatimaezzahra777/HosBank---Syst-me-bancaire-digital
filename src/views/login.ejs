@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HosBank | Vérifiez votre e-mail</title>
+    <title>HosBank | Connexion</title>
     <style>
       :root {
         --primary-dark: #0f172a;
@@ -34,12 +34,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 32px;
+        padding: 0;
       }
 
       .auth-shell {
-        width: 1440px;
-        height: 900px;
+        width: min(1440px, 100%);
+        height: min(900px, 100vh);
+        min-height: 680px;
         max-width: 100%;
         background: var(--primary-dark);
         display: flex;
@@ -115,72 +116,76 @@
         padding: 32px;
       }
 
-      .verification-card {
+      .login-card {
         width: 100%;
-        max-width: 520px;
+        max-width: 440px;
         background: var(--surface-light);
         border-radius: 16px;
-        padding: 36px 32px 28px;
+        padding: 40px 36px 36px;
         box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
       }
 
-      .icon-wrap {
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        margin: 0 auto 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(2, 132, 199, 0.08);
-        border: 1px solid rgba(2, 132, 199, 0.45);
-        color: var(--brand-accent-2);
-        font-size: 28px;
-      }
-
-      .verification-card h2 {
+      .login-card h2 {
         margin: 0;
-        text-align: center;
-        font-size: 24px;
+        font-size: 26px;
         line-height: 1.3;
         color: var(--heading-dark);
         font-weight: 800;
       }
 
       .subtitle {
-        margin: 14px auto 28px;
-        max-width: 360px;
-        text-align: center;
+        margin: 10px 0 28px;
         font-size: 15px;
         color: var(--text-dark);
         line-height: 1.6;
       }
 
-      .email-box {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        width: 100%;
-        min-height: 54px;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        padding: 12px 16px;
-        font-weight: 600;
-        color: var(--heading-dark);
-        margin-bottom: 24px;
+      .form-group {
+        margin-bottom: 18px;
       }
 
-      .email-box strong {
-        color: var(--brand-accent-2);
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--heading-dark);
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .form-group input {
+        width: 100%;
+        min-height: 48px;
+        padding: 12px 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background: #fff;
+        color: var(--heading-dark);
+        font: inherit;
+      }
+
+      .form-group input:focus {
+        outline: 3px solid rgba(2, 132, 199, 0.16);
+        border-color: var(--brand-accent-2);
+      }
+
+      .form-message {
+        min-height: 22px;
+        margin: 0 0 12px;
+        color: #b42318;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .form-message[data-state="success"] {
+        color: #087f70;
       }
 
       .cta-btn {
         width: 100%;
-        padding: 14px 18px;
+        min-height: 48px;
+        padding: 12px 18px;
         border: none;
-        border-radius: 10px;
+        border-radius: 8px;
         background: linear-gradient(135deg, var(--brand-accent) 0%, var(--brand-accent-2) 100%);
         color: #fff;
         font-size: 15px;
@@ -189,27 +194,17 @@
         box-shadow: 0 10px 24px rgba(2, 132, 199, 0.2);
       }
 
-      .secondary-btn {
-        margin-top: 16px;
-        width: 100%;
-        border: 1px solid rgba(2, 132, 199, 0.4);
-        background: transparent;
-        color: var(--brand-accent-2);
-        border-radius: 10px;
-        padding: 13px 18px;
-        font-size: 15px;
-        font-weight: 600;
-        cursor: pointer;
+      .cta-btn:disabled {
+        cursor: wait;
+        opacity: 0.72;
       }
 
       .back-link {
         display: inline-flex;
         align-items: center;
-        justify-content: center;
         gap: 8px;
-        width: 100%;
-        margin-top: 18px;
-        color: var(--heading-dark);
+        margin-top: 22px;
+        color: var(--brand-accent-2);
         text-decoration: none;
         font-size: 14px;
         font-weight: 600;
@@ -222,6 +217,7 @@
       @media (max-width: 980px) {
         .auth-shell {
           height: auto;
+          min-height: 100vh;
           flex-direction: column;
         }
 
@@ -235,9 +231,21 @@
         }
 
         .form-panel {
-          padding: 24px 18px 30px;
+          min-height: 480px;
+          padding: 32px 18px;
         }
       }
+
+      @media (max-width: 520px) {
+        .hero h1 {
+          font-size: 34px;
+        }
+
+        .login-card {
+          padding: 30px 22px;
+        }
+      }
+
     </style>
   </head>
   <body>
@@ -260,24 +268,65 @@
         </aside>
 
         <main class="form-panel">
-          <div class="verification-card">
-            <div class="icon-wrap">✉</div>
-            <h2>Vérifiez votre e-mail</h2>
-            <div class="subtitle">
-              Nous avons envoyé un message à votre adresse pour confirmer votre accès sécurisé.
-            </div>
+          <section class="login-card" aria-labelledby="login-title">
+            <h2 id="login-title">Connexion à votre espace</h2>
+            <p class="subtitle">Accédez à votre espace HosBank en toute sécurité.</p>
 
-            <div class="email-box">
-              <span>📧</span>
-              <span>contact<strong>@example.com</strong></span>
-            </div>
+            <form id="login-form">
+              <div class="form-group">
+                <label for="email">Adresse e-mail</label>
+                <input id="email" name="email" type="email" autocomplete="username" required />
+              </div>
 
-            <button class="cta-btn">Renvoyer l'e-mail</button>
-            <button class="secondary-btn">Retour à la connexion</button>
-            <a href="#" class="back-link"><span>←</span> Retour à la connexion</a>
-          </div>
+              <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input id="password" name="password" type="password" autocomplete="current-password" required />
+              </div>
+
+              <p class="form-message" id="login-message" role="status" aria-live="polite"></p>
+              <button class="cta-btn" id="login-submit" type="submit">Se connecter</button>
+            </form>
+
+            <a href="#" class="back-link"><span aria-hidden="true">←</span> Retour</a>
+          </section>
         </main>
       </div>
     </div>
+    <script>
+      const loginForm = document.querySelector('#login-form');
+      const loginMessage = document.querySelector('#login-message');
+      const loginSubmit = document.querySelector('#login-submit');
+
+      loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        loginMessage.textContent = '';
+        loginMessage.dataset.state = '';
+        loginSubmit.disabled = true;
+
+        try {
+          const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: loginForm.elements.email.value,
+              password: loginForm.elements.password.value
+            })
+          });
+          const result = await response.json();
+
+          if (!response.ok) {
+            throw new Error(result.message || 'Connexion impossible.');
+          }
+
+          sessionStorage.setItem('hosbankToken', result.token);
+          loginMessage.dataset.state = 'success';
+          loginMessage.textContent = `Connexion réussie, ${result.user.firstName}.`;
+        } catch (error) {
+          loginMessage.textContent = error.message || 'Le serveur est indisponible.';
+        } finally {
+          loginSubmit.disabled = false;
+        }
+      });
+    </script>
   </body>
 </html>
