@@ -1,32 +1,111 @@
-const express = require("express");
-const path = require("path");
-const routes = require("./routes/route");
+// const express = require("express");
+// const path = require("path");
 
-const app = express();
+// const routes = require("./routes/route");
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+// const session = require("express-session");
+// const pool = require("./config/database");
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+// require("dotenv").config();
 
-app.get("/", (req, res) => {
-  res.render("login");
-});
 
-app.get("/login", (req, res) => {
-  res.render("login");
-});
+// const app = express();
 
-app.get("/dashboard", (req, res) => {
-  res.render("workspace");
-});
 
-app.use("/api", routes);
 
-const PORT = process.env.PORT || 3000;
+// app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
+// app.use(express.static(path.join(__dirname, "public")));
 
-app.listen(PORT, () => {
-  console.log(`Serveur sur http://localhost:${PORT}`);
-});
+// app.get("/", (req, res) => {
+//   res.render("login");
+// });
+
+// app.get("/login", (req, res) => {
+//   res.render("login");
+// });
+
+// app.get("/dashboard", (req, res) => {
+//   res.render("workspace");
+// });
+
+// app.use("/api", routes);
+
+// app.set("view engine", "ejs");
+
+// app.set(
+//     "views",
+//     path.join(__dirname, "../views")
+// );
+
+
+
+// app.use(express.urlencoded({
+//     extended: true
+// }));
+
+// app.use(express.json());
+
+// app.use(
+//     express.static(
+//         path.join(__dirname, "../public")
+//     )
+// );
+
+
+
+// app.use(
+//     session({
+//         secret: process.env.SESSION_SECRET || "hosbank_secret",
+//         resave: false,
+//         saveUninitialized: false
+//     })
+// );
+
+
+// const authRoutes = require("./routes/route");
+
+// app.use("/", authRoutes);
+
+
+// app.get("/", (req, res) => {
+//     res.send("Banking app fonctionne");
+// });
+
+
+// async function testDatabase() {
+
+//     try {
+
+//         const connection = await pool.getConnection();
+
+//         console.log("mysql fonctionne");
+
+//         connection.release();
+
+//     } catch (error) {
+
+//         console.error(
+//             "error mysql",
+//             error.message
+//         );
+
+//     }
+// }
+
+// testDatabase();
+
+
+
+// const PORT = process.env.PORT || 3000;
+
+// app.listen(PORT, () => {
+//   console.log(`Serveur sur http://localhost:${PORT}`);
+// });
+
+
+//     console.log(
+//         `Server running on http://localhost:${PORT}`
+//     );
+
+

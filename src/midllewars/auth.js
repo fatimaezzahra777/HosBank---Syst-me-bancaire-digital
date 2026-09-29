@@ -1,24 +1,37 @@
-const { users } = require('../models/bankModel');
 
-const authMiddleware = (req, res, next) => {
-  const token = req.headers.authorization || '';
+// const { users } = require('../models/bankModel');
 
-  if (!token.startsWith('Bearer ')) {
-    return res.status(401).json({ success: false, message: 'Token manquant ou invalide' });
-  }
+// const authMiddleware = (req, res, next) => {
+//   const token = req.headers.authorization || '';
 
-  const realToken = token.replace('Bearer ', '').trim();
-  const match = realToken.match(/^demo-token-(\d+)$/);
-  const user = match && users.find((item) => item.id === Number(match[1]));
+//   if (!token.startsWith('Bearer ')) {
+//     return res.status(401).json({ success: false, message: 'Token manquant ou invalide' });
+//   }
 
-  if (!user || user.status !== 'ACTIVE') {
-    return res.status(401).json({ success: false, message: 'Token invalide' });
-  }
+//   const realToken = token.replace('Bearer ', '').trim();
+//   const match = realToken.match(/^demo-token-(\d+)$/);
+//   const user = match && users.find((item) => item.id === Number(match[1]));
 
-  req.user = user;
-  return next();
-};
+//   if (!user || user.status !== 'ACTIVE') {
+//     return res.status(401).json({ success: false, message: 'Token invalide' });
+//   }
 
-module.exports = authMiddleware;
+//   req.user = user;
+//   return next();
+// };
+
+// module.exports = authMiddleware;
+
+// function isAuthenticated(req, res, next) {
 
 
+//     if (!req.session.user) {
+//         return res.redirect("/login");
+//     }
+
+//     next();
+// }
+
+// module.exports = {
+//     isAuthenticated
+// };

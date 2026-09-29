@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>HosBank - Virements</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+
+<body class="dashboard-page">
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                H
+            </div>
+
+            HosBank
+
+        </div>
+
+
+        <div class="navbar-links">
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+            <a href="/beneficiaries">
+                Bénéficiaires
+            </a>
+
+            <a href="/transfers">
+                Virements
+            </a>
+
+            <a href="/historique">
+                Historique
+            </a>
+
+            <a
+                href="/logout"
+                class="logout"
+            >
+                Déconnexion
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         CONTENT
+    ========================== -->
+
+    <main class="dashboard-container">
+
+
+        <div class="dashboard-header">
+
+            <h1>
+                Virements
+            </h1>
+
+            <p>
+                Effectuez un virement vers l'un de vos bénéficiaires.
+            </p>
+
+        </div>
+
+
+        <% if (typeof error !== 'undefined' && error) { %>
+
+            <div class="alert alert-error">
+                <%= error %>
+            </div>
+
+        <% } %>
+
+
+        <% if (typeof success !== 'undefined' && success) { %>
+
+            <div class="alert alert-success">
+                <%= success %>
+            </div>
+
+        <% } %>
+
+
+        <div class="transfer-layout">
+
+
+            <!-- =========================
+                 FORMULAIRE
+            ========================== -->
+
+            <section class="transfer-form-card">
+
+                <h2>
+                    Nouveau virement
+                </h2>
+
+                <p class="transfer-description">
+                    Sélectionnez votre compte, le bénéficiaire et
+                    indiquez le montant à transférer.
+                </p>
+
+
+                <form
+                    action="/transfers"
+                    method="POST"
+                >
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Compte source
+                        </label>
+
+                        <select
+                            name="account_id"
+                            required
+                        >
+
+                            <option value="">
+                                Sélectionner un compte
+                            </option>
+
+                            <% accounts.forEach(account => { %>
+
+                                <option value="<%= account.id %>">
+
+                                    <%= account.account_number %>
+                                    -
+                                    <%= account.balance %> DH
+
+                                </option>
+
+                            <% }) %>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Bénéficiaire
+                        </label>
+
+                        <select
+                            name="beneficiary_id"
+                            required
+                        >
+
+                            <option value="">
+                                Sélectionner un bénéficiaire
+                            </option>
+
+                            <% beneficiaries.forEach(beneficiary => { %>
+
+                                <option
+                                    value="<%= beneficiary.id %>"
+                                >
+
+                                    <%= beneficiary.name %>
+                                    -
+                                    <%= beneficiary.rib %>
+
+                                </option>
+
+                            <% }) %>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Montant
+                        </label>
+
+                        <input
+                            type="number"
+                            name="amount"
+                            min="0.01"
+                            step="0.01"
+                            placeholder="0.00"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Description
+                        </label>
+
+                        <textarea
+                            name="description"
+                            rows="3"
+                            placeholder="Motif du virement"
+                        ></textarea>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="btn-primary"
+                    >
+                        Effectuer le virement
+                    </button>
+
+
+                </form>
+
+            </section>
+
+
+            <!-- =========================
+                 VIREMENTS RECENTS
+            ========================== -->
+
+            <section class="transfer-list-card">
+
+                <h2>
+                    Mes derniers virements
+                </h2>
+
+                <p class="transfer-description">
+                    Consultez vos derniers virements effectués.
+                </p>
+
+
+                <% if (!transfers || transfers.length === 0) { %>
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            →
+                        </div>
+
+                        <h3>
+                            Aucun virement
+                        </h3>
+
+                        <p>
+                            Vous n'avez effectué aucun virement.
+                        </p>
+
+                    </div>
+
+                <% } else { %>
+
+
+                    <div class="transfer-list">
+
+
+                        <% transfers.forEach(transfer => { %>
+
+                            <div class="transfer-item">
+
+
+                                <div class="transfer-info">
+
+                                    <div class="transfer-icon">
+                                        →
+                                    </div>
+
+
+                                    <div>
+
+                                        <h3>
+                                            <%= transfer.beneficiary_name %>
+                                        </h3>
+
+                                        <p>
+                                            <%= transfer.rib %>
+                                        </p>
+
+                                        <p>
+                                            <%= transfer.created_at %>
+                                        </p>
+
+
+                                        <span
+                                            class="status-badge status-<%= transfer.status.toLowerCase() %>"
+                                        >
+
+                                            <%= transfer.status %>
+
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="transfer-amount">
+
+                                    <%= transfer.amount %> DH
+
+                                </div>
+
+
+                            </div>
+
+                        <% }) %>
+
+
+                    </div>
+
+                <% } %>
+
+
+            </section>
+
+
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>

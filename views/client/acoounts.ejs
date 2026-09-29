@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>HosBank - Mes comptes</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        HosBank
+    </div>
+
+    <nav>
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/accounts">
+            Mes comptes
+        </a>
+
+        <a href="/beneficiaries">
+            Bénéficiaires
+        </a>
+
+        <a href="/transfers">
+            Virements
+        </a>
+
+        <a href="/history">
+            Historique
+        </a>
+
+        <a href="/cards">
+            Cartes
+        </a>
+
+        <a href="/logout">
+            Déconnexion
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="dashboard-container">
+
+    <h1>Mes comptes</h1>
+
+    <p>
+        Consultez vos comptes et vos informations bancaires.
+    </p>
+
+
+    <% if (error) { %>
+
+        <div class="alert alert-error">
+            <%= error %>
+        </div>
+
+    <% } %>
+
+
+    <% if (success === "rib") { %>
+
+        <div class="alert alert-success">
+            Votre demande de RIB a été envoyée.
+        </div>
+
+    <% } %>
+
+
+    <% if (success === "savings") { %>
+
+        <div class="alert alert-success">
+            Votre demande de compte épargne a été envoyée.
+        </div>
+
+    <% } %>
+
+
+    <section class="cards-grid">
+
+        <% if (accounts.length === 0) { %>
+
+            <p>
+                Vous n'avez aucun compte bancaire.
+            </p>
+
+        <% } %>
+
+
+        <% accounts.forEach(function(account) { %>
+
+            <article class="account-card">
+
+                <h2>
+                    <%= account.type %>
+                </h2>
+
+                <p>
+                    Numéro :
+                    <strong>
+                        <%= account.account_number %>
+                    </strong>
+                </p>
+
+                <p>
+                    RIB :
+                    <strong>
+                        <%= account.rib %>
+                    </strong>
+                </p>
+
+                <p>
+                    Solde :
+                    <strong>
+                        <%= account.balance %> DH
+                    </strong>
+                </p>
+
+                <p>
+                    Statut :
+                    <strong>
+                        <%= account.status %>
+                    </strong>
+                </p>
+
+
+                <form
+                    action="/accounts/<%= account.id %>/rib"
+                    method="POST"
+                >
+
+                    <button type="submit">
+                        Demander un RIB
+                    </button>
+
+                </form>
+
+            </article>
+
+        <% }) %>
+
+    </section>
+
+
+    <section>
+
+        <h2>
+            Ouvrir un compte épargne
+        </h2>
+
+        <p>
+            Envoyez une demande au chargé client.
+        </p>
+
+        <form
+            action="/accounts/savings"
+            method="POST"
+        >
+
+            <button type="submit">
+                Demander un compte épargne
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
+
+</body>
+
+</html>

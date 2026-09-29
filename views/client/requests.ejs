@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>HosBank - Mes demandes</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        HosBank
+    </div>
+
+    <nav>
+
+        <a href="/dashboard">Dashboard</a>
+        <a href="/accounts">Comptes</a>
+        <a href="/beneficiaries">Bénéficiaires</a>
+        <a href="/transfers">Virements</a>
+        <a href="/history">Historique</a>
+        <a href="/cards">Cartes</a>
+
+    </nav>
+
+</header>
+
+
+<main class="dashboard-container">
+
+    <h1>Mes demandes</h1>
+
+
+    <% if (requests.length === 0) { %>
+
+        <p>
+            Vous n'avez aucune demande.
+        </p>
+
+    <% } %>
+
+
+    <% requests.forEach(function(request) { %>
+
+        <article class="request-card">
+
+            <h2>
+                <%= request.type %>
+            </h2>
+
+            <p>
+                <%= request.description || "Aucune description" %>
+            </p>
+
+            <p>
+                Statut :
+                <strong>
+                    <%= request.status %>
+                </strong>
+            </p>
+
+            <p>
+                Date :
+                <%= request.created_at %>
+            </p>
+
+        </article>
+
+    <% }) %>
+
+</main>
+
+</body>
+
+</html>
