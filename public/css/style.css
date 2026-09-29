@@ -716,3 +716,302 @@ td {
         width: 100%;
     }
 }
+
+
+/* =========================
+   TRANSFERS
+========================= */
+
+.transfer-layout {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 25px;
+    align-items: start;
+}
+
+.transfer-form-card {
+    background: white;
+    border-radius: 14px;
+    padding: 25px;
+}
+
+.transfer-list-card {
+    background: white;
+    border-radius: 14px;
+    padding: 25px;
+}
+
+.transfer-form-card h2,
+.transfer-list-card h2 {
+    font-size: 18px;
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.transfer-description {
+    color: #7b8499;
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.form-group textarea {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: 1px solid #e1e5ec;
+    border-radius: 7px;
+
+    outline: none;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+
+    resize: vertical;
+
+    transition: 0.2s;
+}
+
+.form-group textarea:focus {
+    border-color: #12a89d;
+
+    box-shadow:
+        0 0 0 3px rgba(18, 168, 157, 0.1);
+}
+
+
+/* =========================
+   TRANSFER ITEM
+========================= */
+
+.transfer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.transfer-item {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 18px;
+
+    border: 1px solid #edf0f5;
+
+    border-radius: 12px;
+
+    background: white;
+
+    transition: 0.2s;
+}
+
+.transfer-item:hover {
+    border-color: #cfe9e6;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 15px rgba(20, 30, 60, 0.05);
+}
+
+.transfer-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.transfer-icon {
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #e7f8f5;
+    color: #12a89d;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.transfer-info h3 {
+    font-size: 14px;
+
+    color: #111827;
+
+    margin-bottom: 5px;
+}
+
+.transfer-info p {
+    font-size: 11px;
+
+    color: #7b8499;
+}
+
+.transfer-amount {
+    font-size: 15px;
+
+    font-weight: 700;
+
+    color: #111827;
+
+    text-align: right;
+}
+
+
+/* =========================
+   STATUS BADGES
+========================= */
+
+.status-badge {
+    display: inline-block;
+
+    padding: 4px 9px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+.status-pending {
+    background: #fff8e6;
+    color: #a66a00;
+}
+
+.status-completed {
+    background: #e7f8f5;
+    color: #087f70;
+}
+
+.status-failed,
+.status-cancelled {
+    background: #fff1f1;
+    color: #c53030;
+}
+
+
+/* =========================
+   HISTORY
+========================= */
+
+.history-card {
+    background: white;
+
+    border-radius: 14px;
+
+    padding: 25px;
+}
+
+.history-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+.history-header h2 {
+    font-size: 18px;
+
+    color: #111827;
+}
+
+.history-description {
+    color: #7b8499;
+
+    font-size: 12px;
+
+    margin-top: 5px;
+}
+
+.history-table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+.history-table th {
+    text-align: left;
+
+    color: #7b8499;
+
+    font-size: 11px;
+
+    padding: 12px;
+
+    border-bottom: 1px solid #edf0f5;
+}
+
+.history-table td {
+    padding: 14px 12px;
+
+    font-size: 13px;
+
+    border-bottom: 1px solid #f0f2f6;
+
+    color: #111827;
+}
+
+.history-table tr:hover {
+    background: #fafbfc;
+}
+
+.amount-positive {
+    color: #087f70;
+
+    font-weight: 600;
+}
+
+.amount-negative {
+    color: #c53030;
+
+    font-weight: 600;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .transfer-layout {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .transfer-item {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .transfer-amount {
+        text-align: left;
+    }
+
+    .history-card {
+        overflow-x: auto;
+    }
+
+    .history-table {
+        min-width: 700px;
+    }
+
+}

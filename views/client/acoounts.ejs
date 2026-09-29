@@ -19,13 +19,13 @@
 
 </head>
 
-
 <body>
 
+<header class="navbar">
 
-<header>
-
-    <h1>HosBank</h1>
+    <div class="logo">
+        HosBank
+    </div>
 
     <nav>
 
@@ -45,6 +45,14 @@
             Virements
         </a>
 
+        <a href="/history">
+            Historique
+        </a>
+
+        <a href="/cards">
+            Cartes
+        </a>
+
         <a href="/logout">
             Déconnexion
         </a>
@@ -54,83 +62,132 @@
 </header>
 
 
+<main class="dashboard-container">
 
-<main>
-
-    <h2>Mes comptes</h2>
+    <h1>Mes comptes</h1>
 
     <p>
-        Consultez vos comptes bancaires et vos soldes.
+        Consultez vos comptes et vos informations bancaires.
     </p>
 
 
     <% if (error) { %>
 
-        <p style="color: red;">
+        <div class="alert alert-error">
             <%= error %>
-        </p>
+        </div>
 
     <% } %>
 
 
-    <% if (accounts.length === 0) { %>
+    <% if (success === "rib") { %>
+
+        <div class="alert alert-success">
+            Votre demande de RIB a été envoyée.
+        </div>
+
+    <% } %>
+
+
+    <% if (success === "savings") { %>
+
+        <div class="alert alert-success">
+            Votre demande de compte épargne a été envoyée.
+        </div>
+
+    <% } %>
+
+
+    <section class="cards-grid">
+
+        <% if (accounts.length === 0) { %>
+
+            <p>
+                Vous n'avez aucun compte bancaire.
+            </p>
+
+        <% } %>
+
+
+        <% accounts.forEach(function(account) { %>
+
+            <article class="account-card">
+
+                <h2>
+                    <%= account.type %>
+                </h2>
+
+                <p>
+                    Numéro :
+                    <strong>
+                        <%= account.account_number %>
+                    </strong>
+                </p>
+
+                <p>
+                    RIB :
+                    <strong>
+                        <%= account.rib %>
+                    </strong>
+                </p>
+
+                <p>
+                    Solde :
+                    <strong>
+                        <%= account.balance %> DH
+                    </strong>
+                </p>
+
+                <p>
+                    Statut :
+                    <strong>
+                        <%= account.status %>
+                    </strong>
+                </p>
+
+
+                <form
+                    action="/accounts/<%= account.id %>/rib"
+                    method="POST"
+                >
+
+                    <button type="submit">
+                        Demander un RIB
+                    </button>
+
+                </form>
+
+            </article>
+
+        <% }) %>
+
+    </section>
+
+
+    <section>
+
+        <h2>
+            Ouvrir un compte épargne
+        </h2>
 
         <p>
-            Vous n'avez aucun compte bancaire.
+            Envoyez une demande au chargé client.
         </p>
 
-    <% } %>
+        <form
+            action="/accounts/savings"
+            method="POST"
+        >
 
+            <button type="submit">
+                Demander un compte épargne
+            </button>
 
-    <% accounts.forEach(function(account) { %>
+        </form>
 
-
-        <section>
-
-            <h3>
-                <%= account.type %>
-            </h3>
-
-
-            <p>
-                Numéro de compte :
-                <strong>
-                    <%= account.account_number %>
-                </strong>
-            </p>
-
-
-            <p>
-                RIB :
-                <strong>
-                    <%= account.rib %>
-                </strong>
-            </p>
-
-
-            <p>
-                Solde :
-                <strong>
-                    <%= account.balance %> DH
-                </strong>
-            </p>
-
-
-            <p>
-                Statut :
-                <strong>
-                    <%= account.status %>
-                </strong>
-            </p>
-
-        </section>
-
-
-    <% }) %>
-
+    </section>
 
 </main>
-
 
 </body>
 

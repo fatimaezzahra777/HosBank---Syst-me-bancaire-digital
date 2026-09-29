@@ -1,54 +1,58 @@
-const service = require("../services/service");
+const transferModel =
+    require("../models/transfer.model");
+
 
 async function showTransfers(req, res) {
-    try{
-        const userId = req.session.user.id;
 
-        const data =
-            await service.getTransferPageData(userId);
+    try {
 
+        const userId =
+            req.session.user.id;
 
-        res.render("client/transfers", {
-
-            accounts: data.accounts,
-
-            beneficiaries: data.beneficiaries,
-
-            error: null,
-
-            success: null
-
-        });
-    } catch (error){
-        console.error(error);
-
-
-        const data =
-            await service.getTransferPageData(
-                req.session.user.id
+        const accounts =
+            await transferModel.getAccounts(
+                userId
             );
 
+        const beneficiaries =
+            await transferModel.getBeneficiaries(
+                userId
+            );
+
+        const transfers =
+            await transferModel.getTransfers(
+                userId
+            );
 
         res.render("client/transfers", {
-
-            accounts: data.accounts,
-
-            beneficiaries: data.beneficiaries,
-
-            error: error.message,
-
+            accounts,
+            beneficiaries,
+            transfers,
+            error: null,
             success: null
+        });
 
+    } catch (error) {
+
+        console.error(error);
+
+        res.render("client/transfers", {
+            accounts: [],
+            beneficiaries: [],
+            transfers: [],
+            error: error.message,
+            success: null
         });
     }
 }
+
 
 async function createTransfer(req, res) {
 
     try {
 
-        const userId = req.session.user.id;
-
+        const userId =
+            req.session.user.id;
 
         const {
             account_id,
@@ -58,7 +62,27 @@ async function createTransfer(req, res) {
         } = req.body;
 
 
-        await service.makeTransfer(
+        if (
+            !account_id ||
+            !beneficiary_id ||
+            !amount
+        ) {
+
+            throw new Error(
+                "Tous les champs obligatoires doivent être remplis."
+            );
+        }
+
+
+        if (Number(amount) <= 0) {
+
+            throw new Error(
+                "Le montant doit être supérieur à 0."
+            );
+        }
+
+
+        await transferModel.executeTransfer(
 
             userId,
 
@@ -66,7 +90,7 @@ async function createTransfer(req, res) {
 
             beneficiary_id,
 
-            amount,
+            Number(amount),
 
             description
 
@@ -82,27 +106,12 @@ async function createTransfer(req, res) {
 
         console.error(error);
 
-
-        const data =
-            await service.getTransferPageData(
-                req.session.user.id
-            );
-
-
-        res.render("client/transfers", {
-
-            accounts: data.accounts,
-
-            beneficiaries: data.beneficiaries,
-
-            error: error.message,
-
-            success: null
-
-        });
-
+        res.redirect(
+            `/transfers?error=${encodeURIComponent(error.message)}`
+        );
     }
 }
+
 
 module.exports = {
     showTransfers,

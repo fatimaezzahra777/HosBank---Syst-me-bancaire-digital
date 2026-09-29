@@ -3,6 +3,7 @@ const userModel = require("../models/user.model");
 const beneficiaryModel = require("../models/benificiary.model");
 const transferModel= require("../models/transfer.model");
 const accountModel = require("../models/account.model");
+const requestModel = require("../models/request.model");
 
 async function registerUser(firstName, lastName, email, password) {
 
@@ -197,6 +198,68 @@ async function getClientAccounts(userId) {
 
 }
 
+async function requestRib(
+    userId,
+    accountId
+) {
+
+    const account =
+        await accountModel.getAccountById(
+            accountId,
+            userId
+        );
+
+    if (!account) {
+        throw new Error(
+            "Compte bancaire introuvable."
+        );
+    }
+
+    const existing =
+        await requestModel.getPendingRequest(
+            userId,
+            "RIB"
+        );
+
+    if (existing) {
+        throw new Error(
+            "Vous avez déjà une demande de RIB en cours."
+        );
+    }
+
+    return await requestModel.createRequest(
+        userId,
+        "RIB",
+        `Demande de RIB pour le compte ${account.account_number}`
+    );
+}
+
+async function requestSavingsAccount(userId) {
+
+    const existing =
+        await requestModel.getPendingRequest(
+            userId,
+            "SAVINGS_ACCOUNT"
+        );
+
+    if (existing) {
+        throw new Error(
+            "Vous avez déjà une demande de compte épargne en cours."
+        );
+    }
+
+    return await requestModel.createRequest(
+        userId,
+        "SAVINGS_ACCOUNT",
+        "Demande d'ouverture d'un compte d'épargne"
+    );
+}
+async function getClientRequests(userId) {
+
+    return await requestModel.getRequestsByUserId(
+        userId
+    );
+}
 
 module.exports = {
     registerUser,
@@ -206,5 +269,8 @@ module.exports = {
     removeBeneficier,
     getTransferPageData,
     makeTransfer,
-    getClientAccounts
+    getClientAccounts,
+    getClientRequests,
+    requestSavingsAccount,
+    requestRib
 };
