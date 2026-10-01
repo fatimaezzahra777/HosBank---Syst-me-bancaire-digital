@@ -35,3 +35,26 @@
 // module.exports = {
 //     isAuthenticated
 // };
+
+const { users } = require('../models/bankModel');
+
+function apiAuthMiddleware(req, res, next) {
+	const authorization = req.headers.authorization || '';
+	const match = authorization.match(/^Bearer demo-token-(\d+)$/);
+	const user = match && users.find((item) => item.id === Number(match[1]));
+
+	if (!user || user.status !== 'ACTIVE') {
+		return res.status(401).json({ success: false, message: 'Token manquant ou invalide' });
+	}
+
+	req.user = user;
+	return next();
+}
+
+function isAuthenticated(req, res, next) {
+	if (!req.session?.user) return res.redirect('/login');
+	return next();
+}
+
+module.exports = apiAuthMiddleware;
+module.exports.isAuthenticated = isAuthenticated;

@@ -9,7 +9,7 @@ async function showAccounts(req, res) {
         const accounts =
             await service.getClientAccounts(userId);
 
-        res.render("client/accounts", {
+        res.render("client/acoounts", {
             accounts,
             error: null,
             success: null
@@ -19,7 +19,7 @@ async function showAccounts(req, res) {
 
         console.error(error);
 
-        res.render("client/accounts", {
+        res.render("client/acoounts", {
             accounts: [],
             error: error.message,
             success: null

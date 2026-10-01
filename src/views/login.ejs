@@ -322,7 +322,7 @@
           sessionStorage.setItem('hosbankUser', JSON.stringify(result.user));
           loginMessage.dataset.state = 'success';
           loginMessage.textContent = `Connexion réussie, ${result.user.firstName}.`;
-          window.location.assign('/dashboard');
+          window.location.assign('/staff/dashboard');
         } catch (error) {
           loginMessage.textContent = error.message || 'Le serveur est indisponible.';
         } finally {

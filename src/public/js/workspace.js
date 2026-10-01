@@ -4,7 +4,7 @@ const isAdmin = user && user.role === 'Administrateur';
 const cache = { clients: [], requests: [], complaints: [], interactions: [], users: [], roles: [], accounts: [], cards: [], operations: [], transfers: [] };
 const message = document.querySelector('#message');
 
-if (!token || !user) window.location.replace('/login');
+if (!token || !user) window.location.replace('/staff/login');
 
 document.querySelector('#user-name').textContent = user ? `${user.firstName} ${user.lastName} · ${user.role}` : '';
 document.querySelectorAll('.admin-only').forEach((element) => { element.hidden = !isAdmin; });
@@ -283,7 +283,7 @@ document.querySelectorAll('.nav-link').forEach((link) => link.addEventListener('
 
 document.querySelectorAll('[data-refresh]').forEach((buttonElement) => buttonElement.addEventListener('click', loadWorkspace));
 document.querySelector('#history-client').addEventListener('change', renderHistory);
-document.querySelector('#logout').addEventListener('click', () => { sessionStorage.clear(); window.location.assign('/login'); });
+document.querySelector('#logout').addEventListener('click', () => { sessionStorage.clear(); window.location.assign('/staff/login'); });
 
 document.querySelector('#complaint-form').addEventListener('submit', async (event) => {
   event.preventDefault();

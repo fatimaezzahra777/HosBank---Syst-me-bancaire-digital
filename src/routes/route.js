@@ -83,6 +83,88 @@
 
 // module.exports = router;
 
+const express = require('express');
+const authController = require('../controllers/auth.controller');
+const dashboardController = require('../controllers/dashboard.controller');
+const beneficiaryController = require('../controllers/benificiary.controller');
+const transferController = require('../controllers/transfer.controller');
+const accountController = require('../controllers/account.controller');
+const transactionController = require('../controllers/transaction.controller');
+const requestController = require('../controllers/request.controller');
+const bankController = require('../controllers/bankController');
+const demoAuthController = require('../controllers/auth');
+const authMiddleware = require('../midllewars/auth');
+const requireRoles = require('../midllewars/roles');
+const { isAuthenticated } = authMiddleware;
+
+const router = express.Router();
+const apiRouter = express.Router();
+
+router.get('/', (req, res) => res.redirect('/login'));
+router.get('/register', authController.showRegister);
+router.post('/register', authController.register);
+router.get('/login', authController.showLogin);
+router.post('/login', authController.login);
+router.get('/logout', authController.logout);
+
+router.get('/dashboard', isAuthenticated, dashboardController.dashboard);
+router.get('/beneficiaries', isAuthenticated, beneficiaryController.showBeneficiaries);
+router.post('/beneficiaries', isAuthenticated, beneficiaryController.addBeneficier);
+router.post('/beneficiaries/:id/delete', isAuthenticated, beneficiaryController.deleteBeneficiers);
+router.get('/transfers', isAuthenticated, transferController.showTransfers);
+router.post('/transfers', isAuthenticated, transferController.createTransfer);
+router.get('/accounts', isAuthenticated, accountController.showAccounts);
+router.post('/accounts/:id/rib', isAuthenticated, accountController.requestRib);
+router.post('/accounts/savings', isAuthenticated, accountController.requestSavingsAccount);
+router.get('/requests', isAuthenticated, requestController.showRequests);
+router.get('/historique', isAuthenticated, transactionController.showHistory);
+router.get('/history', isAuthenticated, transactionController.showHistory);
+
+apiRouter.post('/login', demoAuthController.login);
+apiRouter.use(authMiddleware);
+apiRouter.use('/admin', requireRoles('Administrateur'));
+apiRouter.use('/advisors', requireRoles('Chargé Client', 'Administrateur'));
+apiRouter.use('/clients', requireRoles('Chargé Client', 'Administrateur'));
+apiRouter.use('/requests', requireRoles('Chargé Client', 'Administrateur'));
+apiRouter.use('/complaints', requireRoles('Chargé Client', 'Administrateur'));
+apiRouter.use('/interactions', requireRoles('Chargé Client', 'Administrateur'));
+apiRouter.use('/comments', requireRoles('Chargé Client', 'Administrateur'));
+
+apiRouter.get('/clients', bankController.getClients);
+apiRouter.get('/requests', bankController.getRequests);
+apiRouter.get('/complaints', bankController.getComplaints);
+apiRouter.get('/interactions', bankController.getInteractions);
+apiRouter.get('/advisors', bankController.getAdvisors);
+apiRouter.get('/clients/:id', bankController.getClientById);
+apiRouter.get('/clients/:id/accounts', bankController.getClientAccounts);
+apiRouter.get('/clients/:id/cards', bankController.getClientCards);
+apiRouter.get('/clients/:id/requests', bankController.getClientRequests);
+apiRouter.get('/clients/:id/complaints', bankController.getClientComplaints);
+apiRouter.get('/clients/:id/interactions', bankController.getClientInteractions);
+apiRouter.patch('/requests/:id/status', bankController.updateRequestStatus);
+apiRouter.post('/complaints', bankController.createComplaint);
+apiRouter.patch('/complaints/:id/status', bankController.updateComplaintStatus);
+apiRouter.post('/comments', bankController.createComment);
+
+apiRouter.get('/admin/users', bankController.getUsers);
+apiRouter.get('/admin/roles', bankController.getRoles);
+apiRouter.patch('/admin/clients/assign', bankController.assignClientToAdvisor);
+apiRouter.post('/admin/users', bankController.createUser);
+apiRouter.patch('/admin/users/:id', bankController.updateUser);
+apiRouter.patch('/admin/users/:id/status', bankController.updateUserStatus);
+apiRouter.get('/admin/accounts', bankController.getAccounts);
+apiRouter.post('/admin/accounts', bankController.createAccount);
+apiRouter.patch('/admin/accounts/:id', bankController.updateAccount);
+apiRouter.patch('/admin/accounts/:id/status', bankController.updateAccountStatus);
+apiRouter.get('/admin/cards', bankController.getCards);
+apiRouter.patch('/admin/cards/:id/status', bankController.updateCardStatus);
+apiRouter.get('/admin/operations', bankController.getOperations);
+apiRouter.get('/admin/transfers', bankController.getTransfers);
+apiRouter.get('/admin/activities', bankController.getActivities);
+
+module.exports = router;
+module.exports.api = apiRouter;
+
 // const express = require("express");
 
 // const router = express.Router();

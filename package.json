@@ -1,74 +1,29 @@
-// {
-//   "name": "hosbank",
-//   "version": "1.0.0",
-
-//   "description": "Projet bancaire simple pour le binôme B",
-//   "main": "src/app.js",
-//   "scripts": {
-//    "start": "node src/app.js",
-//     "dev": "node src/app.js",
-//     "test": "node --test tests/api.test.js"
-
-//   "description": "Application Bancaire",
-//   "main": "app.js",
-//   "scripts": {
-//     "test": "echo \"Error: no test specified\" && exit 1",
-//     "start": "node src/app.js",
-//     "dev": "nodemon src/app.js"
-
-//   },
-//   "keywords": [
-//     "banking",
-//     "express",
-//     "backend"
-//   ],
-//   "author": "Ilyas",
-//   "license": "ISC",
-//   "dependencies": {
-
-//     "dotenv": "^16.4.5",
-//     "ejs": "^6.0.1",
-//     "express": "^5.2.1",
-//     "mysql2": "^3.5.1"
-
-//     "bcrypt": "^6.0.0",
-//     "dotenv": "^18.0.1",
-//     "ejs": "^6.0.1",
-//     "express": "^5.2.1",
-//     "express-session": "^1.19.0",
-//     "mysql2": "^3.24.4"
-//   },
-//   "devDependencies": {
-//     "nodemon": "^3.1.14"
-
-//   }
-// }
-// {
-//   "name": "hosbank",
-//   "version": "1.0.0",
-//   "description": "Application bancaire",
-//   "main": "src/app.js",
-//   "scripts": {
-//     "start": "node src/app.js",
-//     "dev": "nodemon src/app.js",
-//     "test": "node --test tests/api.test.js"
-//   },
-//   "keywords": [
-//     "banking",
-//     "express",
-//     "backend"
-//   ],
-//   "author": "Ilyas",
-//   "license": "ISC",
-//   "dependencies": {
-//     "bcrypt": "^6.0.0",
-//     "dotenv": "^18.0.1",
-//     "ejs": "^6.0.1",
-//     "express": "^5.2.1",
-//     "express-session": "^1.19.0",
-//     "mysql2": "^3.24.4"
-//   },
-//   "devDependencies": {
-//     "nodemon": "^3.1.14"
-//   }
-// }
+{
+	"name": "hosbank-",
+	"version": "1.0.0",
+	"description": "Application bancaire HosBank",
+	"main": "src/app.js",
+	"scripts": {
+		"start": "node src/app.js",
+		"dev": "nodemon src/app.js",
+		"test": "node --test tests/api.test.js"
+	},
+	"keywords": [
+		"banking",
+		"express",
+		"backend"
+	],
+	"author": "HosBank",
+	"license": "ISC",
+	"dependencies": {
+		"bcrypt": "^6.0.0",
+		"dotenv": "^18.0.1",
+		"ejs": "^6.0.1",
+		"express": "^5.2.1",
+		"express-session": "^1.19.0",
+		"mysql2": "^3.24.4"
+	},
+	"devDependencies": {
+		"nodemon": "^3.1.14"
+	}
+}

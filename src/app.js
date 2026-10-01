@@ -108,4 +108,38 @@
 //         `Server running on http://localhost:${PORT}`
 //     );
 
+const express = require('express');
+const path = require('path');
+const session = require('express-session');
+const routes = require('./routes/route');
+
+require('dotenv').config();
+
+const app = express();
+
+app.set('view engine', 'ejs');
+app.set('views', [
+	path.join(__dirname, '../views'),
+	path.join(__dirname, 'views')
+]);
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+	secret: process.env.SESSION_SECRET || 'hosbank-development-secret',
+	resave: false,
+	saveUninitialized: false
+}));
+
+app.get('/staff/login', (req, res) => res.render('login'));
+app.get('/staff/dashboard', (req, res) => res.render('workspace'));
+
+app.use('/api', routes.api);
+app.use('/', routes);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`HosBank server running at http://localhost:${PORT}`));
+
 

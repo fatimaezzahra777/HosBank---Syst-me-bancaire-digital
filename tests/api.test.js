@@ -24,7 +24,12 @@ function request(pathname, method = 'GET', body, token) {
       response.setEncoding('utf8');
       response.on('data', (chunk) => { responseBody += chunk; });
       response.on('end', () => {
-        resolve({ status: response.statusCode, body: responseBody ? JSON.parse(responseBody) : {} });
+        const contentType = response.headers['content-type'] || '';
+        resolve({
+          status: response.statusCode,
+          headers: response.headers,
+          body: contentType.includes('application/json') ? JSON.parse(responseBody) : responseBody
+        });
       });
     });
 
@@ -52,6 +57,14 @@ test('Binôme B advisor and Admin workflows', async (context) => {
     }
   }
   assert.equal(ready, true, 'server should start on the test port');
+
+  assert.equal((await request('/login')).status, 200);
+  assert.equal((await request('/register')).status, 200);
+  const protectedDashboard = await request('/dashboard');
+  assert.equal(protectedDashboard.status, 302);
+  assert.equal(protectedDashboard.headers.location, '/login');
+  assert.equal((await request('/staff/login')).status, 200);
+  assert.equal((await request('/staff/dashboard')).status, 200);
 
   const adminLogin = await request('/api/login', 'POST', { email: 'nadia@bank.com', password: '123456' });
   assert.equal(adminLogin.status, 200);
